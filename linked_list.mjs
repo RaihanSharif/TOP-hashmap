@@ -140,10 +140,10 @@ export class LinkedList {
 
   // returns first instance where a matching k,v pair is found
   // works
-  contains(key, value) {
+  contains(key) {
     let currentNode = this.head;
     while (currentNode != null) {
-      if (currentNode.key == key && currentNode.value == value) return true;
+      if (currentNode.key == key) return true;
       currentNode = currentNode.nextNode;
     }
     if (currentNode == null) return false; // this line shouldn't be necessary
@@ -155,18 +155,18 @@ export class LinkedList {
   // shouldn't need both key and value.
   // find should find by key
   // works
-  find(key, value) {
-    if (this.head.key === key && this.head.value === value) {
+  find(key) {
+    if (this.head.key === key) {
       return 0;
     }
 
-    if (this.tail.key == key && this.tail.value === value) {
+    if (this.tail.key == key) {
       return this.size - 1;
     }
 
     for (let i = 0; i < this.size; i++) {
       let currentNode = this.at(i);
-      if (currentNode.key === key && currentNode.value === value) {
+      if (currentNode.key === key) {
         return i;
       }
     }

@@ -28,27 +28,22 @@ class HashMap {
     // if it exists, update the value
 
     const index = this.hash(key);
-    console.log(index);
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
     }
 
     if (this.buckets[index] === null) {
-      const newLL = new LinkedList();
-      newLL.append(key, value);
-      this.buckets[index] = newLL;
-      this.length++;
-    } else {
-      const existingLL = this.buckets[index];
-      const nodeIndex = existingLL.find(key, value);
+      this.buckets[index] = new LinkedList();
+    }
 
-      if (nodeIndex == null) {
-        // append to the linkedList of this bucket
-        existingLL.append(new Node(key, value));
-        this.length;
+    if (this.buckets[index].head === null) {
+      this.buckets[index].append(key, value);
+    } else {
+      const found = this.buckets[index].find(key);
+      if (found === null) {
+        this.buckets[index].append(key, value);
       } else {
-        const node = existingLL.at(index);
-        node.value = value;
+        this.buckets[index].at(found).value = value;
       }
     }
   }
@@ -85,6 +80,7 @@ class HashMap {
 
 let h = new HashMap();
 h.set("a", 1);
+h.set("ab", 12);
 h.set("b", 2);
 h.set("c", 3);
 h.set("d", 4);
@@ -103,5 +99,32 @@ h.set("q", 16);
 h.set("r", 17);
 h.set("s", 18);
 h.set("t", 19);
-h.set("ab", 20);
-console.log(h.buckets);
+h.set("u", 19);
+h.set("v", 19);
+h.set("w", 19);
+h.set("x", 19);
+h.set("y", 20);
+h.set("z", 20);
+for (let i = 0; i < h.buckets.length; i++) {
+  const elems = [];
+  let ll = h.buckets[i];
+  for (let j = 0; j < ll.size; j++) {
+    let node = ll.at(j);
+    elems.push([node.key, node.value]);
+  }
+  console.log(elems);
+}
+
+h.set("a", 22);
+h.set("ab", 33);
+
+console.log(`----------------------------------`);
+for (let i = 0; i < h.buckets.length; i++) {
+  const elems = [];
+  let ll = h.buckets[i];
+  for (let j = 0; j < ll.size; j++) {
+    let node = ll.at(j);
+    elems.push([node.key, node.value]);
+  }
+  console.log(elems);
+}
