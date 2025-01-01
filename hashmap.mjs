@@ -1,5 +1,6 @@
 import { Node, LinkedList } from "./linked_list.mjs";
 
+//TODO: do load factor logic on adding new element
 class HashMap {
   buckets = Array(16).fill(null); // 16 nulls, no error
   static loadFactor = 0.8;
@@ -22,20 +23,21 @@ class HashMap {
 
   // if the key already exists in bucket, then the old value is overwritten
   // else new element is added to the bucket
-  //TODO: change length when new element added
   set(key, value) {
     const index = this.hash(key);
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
     }
-
+    // TODO: load factoring
     if (this.buckets[index] === null) {
       this.buckets[index] = new LinkedList();
       this.buckets[index].append(key, value);
+      this.length++;
     } else {
       const found = this.buckets[index].find(key);
       if (found === null) {
         this.buckets[index].append(key, value);
+        this.length++;
       } else {
         this.buckets[index].at(found).value = value;
       }
@@ -72,14 +74,22 @@ class HashMap {
     const search = this.buckets[index].find(key);
     console.log(`removing:`, this.buckets[index].at(search));
     this.buckets[index].removeAt(search);
+    this.length--;
+    // TODO: load factor
     return true;
   }
 
   // returns the number of stored keys
-  length() {}
+  get length() {
+    return this.length;
+  }
 
   // remove all elements from hashmap
-  clear() {}
+  clear() {
+    for (let i = 0; i < this.buckets.length; i++) {
+      this.buckets[i] = null;
+    }
+  }
 
   // return an array of all the keys in the hashmap
   keys() {}
