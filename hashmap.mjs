@@ -20,13 +20,9 @@ class HashMap {
     return hashCode;
   }
 
-  // if the key already exists, then the old value is
-  // is overwritten.
+  // if the key already exists in bucket, then the old value is overwritten
+  // else new element is added to the bucket
   set(key, value) {
-    // hash(key);
-    // check the bucket linked list for an element with this key
-    // if it exists, update the value
-
     const index = this.hash(key);
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bounds");
@@ -52,6 +48,13 @@ class HashMap {
     // hash the key, get the bucket
     // check bucket's linked list for the key, return value
     // else return null
+    const index = this.hash(key);
+    const search = this.buckets[index].find(key);
+    if (search === null) {
+      return null;
+    } else {
+      return this.buckets[index].at(search).value;
+    }
   }
 
   has(key) {
@@ -114,6 +117,10 @@ for (let i = 0; i < h.buckets.length; i++) {
   }
   console.log(elems);
 }
+console.log(`----------------------------------`);
+console.log(`a`, h.get("a"));
+console.log("b", h.get("b"));
+console.log("c", h.get("c"));
 
 h.set("a", 22);
 h.set("ab", 33);
@@ -128,3 +135,8 @@ for (let i = 0; i < h.buckets.length; i++) {
   }
   console.log(elems);
 }
+
+console.log(`--------------`);
+console.log(`a`, h.get("a"));
+console.log(`b`, h.get("b"));
+console.log(`c`, h.get("c"));
