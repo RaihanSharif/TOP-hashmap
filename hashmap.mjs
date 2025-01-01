@@ -64,7 +64,16 @@ class HashMap {
     }
   }
 
-  remove(key) {}
+  remove(key) {
+    if (!this.has(key)) return false;
+
+    const index = this.hash(key);
+
+    const search = this.buckets[index].find(key);
+    console.log(`removing:`, this.buckets[index].at(search));
+    this.buckets[index].removeAt(search);
+    return true;
+  }
 
   // returns the number of stored keys
   length() {}
@@ -149,3 +158,18 @@ console.log(`a`, h.has("a"));
 console.log(`b`, h.has("b"));
 console.log(`c`, h.has("c"));
 console.log(`non-existant`, h.has("non-existant"));
+
+console.log(`--------------`);
+console.log(`remove non-existant key:`, h.remove("non-existant"));
+console.log(`remove key that does exist:`, h.remove("p"));
+
+console.log(`----------------------------------`);
+for (let i = 0; i < h.buckets.length; i++) {
+  const elems = [];
+  let ll = h.buckets[i];
+  for (let j = 0; j < ll.size; j++) {
+    let node = ll.at(j);
+    elems.push([node.key, node.value]);
+  }
+  console.log(elems);
+}
