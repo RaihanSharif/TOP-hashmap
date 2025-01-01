@@ -187,7 +187,21 @@ export class LinkedList {
   }
   // extra credit
   // insertAt(index) {}
-  // removeAt(index) {}
+  removeAt(index) {
+    const nodeToRem = this.at(index);
+    if (nodeToRem === this.head) {
+      this.head = this.head.nextNode;
+    } else if (nodeToRem === this.tail) {
+      this.tail = this.at(index - 1);
+      this.tail.nextNode = null;
+    } else {
+      const beforevNode = this.at(index - 1);
+      const afterNode = this.at(index + 1);
+
+      beforevNode.nextNode = afterNode;
+    }
+    this.size--;
+  }
 }
 
 // let ll = new LinkedList();

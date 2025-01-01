@@ -22,6 +22,7 @@ class HashMap {
 
   // if the key already exists in bucket, then the old value is overwritten
   // else new element is added to the bucket
+  //TODO: change length when new element added
   set(key, value) {
     const index = this.hash(key);
     if (index < 0 || index >= this.buckets.length) {
