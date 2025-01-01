@@ -30,9 +30,6 @@ class HashMap {
 
     if (this.buckets[index] === null) {
       this.buckets[index] = new LinkedList();
-    }
-
-    if (this.buckets[index].head === null) {
       this.buckets[index].append(key, value);
     } else {
       const found = this.buckets[index].find(key);
