@@ -86,9 +86,7 @@ class HashMap {
 
   // remove all elements from hashmap
   clear() {
-    for (let i = 0; i < this.buckets.length; i++) {
-      this.buckets[i] = null;
-    }
+    this.buckets = Array(16).fill(null);
   }
 
   // return an array of all the keys in the hashmap
@@ -183,3 +181,7 @@ for (let i = 0; i < h.buckets.length; i++) {
   }
   console.log(elems);
 }
+
+h.clear();
+
+console.log(`after clearing`, console.log(h.buckets));
