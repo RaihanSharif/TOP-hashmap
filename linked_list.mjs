@@ -1,4 +1,4 @@
-class Node {
+export class Node {
   key;
   value;
   nextNode; // make this private
@@ -20,14 +20,14 @@ class Node {
   }
 
   get value() {
-    return this.data;
+    return this.value;
   }
 
   /**
    * @param {Integer} dataIn
    */
-  set value(dataIn) {
-    this.data = dataIn;
+  set value(valueIn) {
+    this.value = valueIn;
   }
 
   get key() {
@@ -39,7 +39,7 @@ class Node {
   }
 }
 
-class LinkedList {
+export class LinkedList {
   head; // init as null
   tail; // init as null
   size = 0;
@@ -51,8 +51,7 @@ class LinkedList {
     this.tail = null;
   }
 
-  // seems to be working
-  // TODO: check if the linked list is empty
+  // works
   append(key, value) {
     const newNode = new Node(key, value);
     if (this.head == null) {
@@ -67,8 +66,6 @@ class LinkedList {
     }
   }
 
-  // seems to be working
-  // TODO: check if link list is empty
   prepend(key, value) {
     const newNode = new Node(key, value);
 
@@ -99,7 +96,7 @@ class LinkedList {
     return this.tail;
   }
 
-  // seems to be working
+  // works
   at(index) {
     if (index == 0) {
       return this.head;
@@ -142,6 +139,7 @@ class LinkedList {
   }
 
   // returns first instance where a matching k,v pair is found
+  // works
   contains(key, value) {
     let currentNode = this.head;
     while (currentNode != null) {
@@ -154,8 +152,11 @@ class LinkedList {
   }
 
   // return first instance a matching k,v pair is found or null
+  // shouldn't need both key and value.
+  // find should find by key
+  // works
   find(key, value) {
-    if ((this.head.key = key && this.head.value === value)) {
+    if (this.head.key === key && this.head.value === value) {
       return 0;
     }
 
@@ -163,14 +164,10 @@ class LinkedList {
       return this.size - 1;
     }
 
-    let index = 1;
-    let currentNode = this.head.nextNode;
-    while (currentNode) {
-      if (currentNode.key == key && currentNode.value === value) {
-        return index;
-      } else {
-        index++;
-        currentNode = currentNode.nextNode;
+    for (let i = 0; i < this.size; i++) {
+      let currentNode = this.at(i);
+      if (currentNode.key === key && currentNode.value === value) {
+        return i;
       }
     }
     return null;
@@ -188,20 +185,42 @@ class LinkedList {
 
     return LLString.concat(`null`);
   }
-
   // extra credit
-  insertAt(index) {}
-  removeAt(index) {}
+  // insertAt(index) {}
+  // removeAt(index) {}
 }
 
-let ll = new LinkedList();
+// let ll = new LinkedList();
 
-ll.prepend("asd", 12);
-ll.append("asd", 22);
-console.log(ll.at(0));
-console.log(ll.at(1));
-// console.log(ll.at(2));
+// ll.prepend("asd", 12);
+// ll.append("asd", 22);
+// console.log(ll.at(0));
+// console.log(ll.at(1));
+// // console.log(ll.at(2));
 
-ll.find(("asd", 22));
+// ll.find(("asd", 22));
 
-export { Node, LinkedList };
+/*
+ll.append("a", 1); 
+ll.append("b", 2);
+ll.append("c", 3);
+ll.append("d", 4);
+ll.append("e", 5);
+ll.append("f", 6);
+ll.append("g", 7);
+ll.append("h", 8);
+ll.append("i", 9);
+ll.append("j", 10);
+ll.append("k", 11);
+ll.append("l", 12);
+ll.append("m", 13);
+ll.append("n", 14);
+ll.append("o", 15);
+ll.append("p", 16);
+ll.append("q", 17);
+
+
+for (let i = 0; i < ll.size; i++) {
+  console.log(`( ${ll.at(i).key}, ${ll.at(i).value} )`)
+}
+*/
