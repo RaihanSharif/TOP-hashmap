@@ -1,7 +1,9 @@
+import { Node, LinkedList } from "./linked_list.mjs";
+
 class HashMap {
   buckets = Array(16); // 16 undefineds, no error
   static loadFactor = 0.8;
-  capacity = this.buckets.length;
+  capacity = this.buckets.length; // not necessary
   length = 0;
   // if number of entries is > (loadFactor * capacity)
   //    time to double the size of the buckets array
@@ -13,7 +15,8 @@ class HashMap {
 
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % 16;
+      hashCode =
+        (primeNumber * hashCode + key.charCodeAt(i)) % this.buckets.length;
     }
 
     return hashCode;
@@ -25,6 +28,10 @@ class HashMap {
     // hash(key);
     // check the bucket linked list for an element with this key
     // if it exists, update the value
+
+    const index = this.hash(key);
+    const LL = this.buckets[index];
+    LL.find([key, value]);
   }
 
   get(key) {
