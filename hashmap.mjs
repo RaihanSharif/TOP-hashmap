@@ -44,10 +44,9 @@ class HashMap {
     }
   }
 
+  // return the value of the supplied key or null
+  // if it doesn't exist
   get(key) {
-    // hash the key, get the bucket
-    // check bucket's linked list for the key, return value
-    // else return null
     const index = this.hash(key);
     const search = this.buckets[index].find(key);
     if (search === null) {
@@ -57,9 +56,14 @@ class HashMap {
     }
   }
 
+  // return true if key in hashmap, returns false otherwise
+  // hash the key, get the bucket, check the bucket's linked list
   has(key) {
-    // return true if key in hashmap, returns false otherwise
-    // hash the key, get the bucket, check the bucket's linked list
+    if (this.get(key) === null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   remove(key) {}
@@ -140,3 +144,10 @@ console.log(`--------------`);
 console.log(`a`, h.get("a"));
 console.log(`b`, h.get("b"));
 console.log(`c`, h.get("c"));
+console.log(`non-existant`, h.get("non-existant"));
+
+console.log(`--------------`);
+console.log(`a`, h.has("a"));
+console.log(`b`, h.has("b"));
+console.log(`c`, h.has("c"));
+console.log(`non-existant`, h.has("non-existant"));
