@@ -104,7 +104,18 @@ class HashMap {
   }
 
   // return an array of all the values stores in the hashmap
-  values() {}
+  values() {
+    const values = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      const bucket = this.buckets[i];
+      if (bucket !== null) {
+        for (let j = 0; j < bucket.size; j++) {
+          values.push(bucket.at(j).value);
+        }
+      }
+    }
+    return values;
+  }
 
   // return an array of k,v pairs
   // [[firstKey, firstValue], [secondKey, secondValue]]
@@ -152,19 +163,19 @@ console.log(`a`, h.get("a"));
 console.log("b", h.get("b"));
 console.log("c", h.get("c"));
 
-h.set("a", 22);
-h.set("ab", 33);
+// h.set("a", 22);
+// h.set("ab", 33);
 
-console.log(`----------------------------------`);
-for (let i = 0; i < h.buckets.length; i++) {
-  const elems = [];
-  let ll = h.buckets[i];
-  for (let j = 0; j < ll.size; j++) {
-    let node = ll.at(j);
-    elems.push([node.key, node.value]);
-  }
-  console.log(elems);
-}
+// console.log(`----------------------------------`);
+// for (let i = 0; i < h.buckets.length; i++) {
+//   const elems = [];
+//   let ll = h.buckets[i];
+//   for (let j = 0; j < ll.size; j++) {
+//     let node = ll.at(j);
+//     elems.push([node.key, node.value]);
+//   }
+//   console.log(elems);
+// }
 
 console.log(`--------------`);
 console.log(`a`, h.get("a"));
@@ -198,3 +209,4 @@ for (let i = 0; i < h.buckets.length; i++) {
 // console.log(`after clearing`, console.log(h.buckets));
 
 console.log(`keys`, h.keys());
+console.log(`values`, h.values());
