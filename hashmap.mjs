@@ -90,7 +90,18 @@ class HashMap {
   }
 
   // return an array of all the keys in the hashmap
-  keys() {}
+  keys() {
+    const keys = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      const bucket = this.buckets[i];
+      if (bucket !== null) {
+        for (let j = 0; j < bucket.size; j++) {
+          keys.push(bucket.at(j).key);
+        }
+      }
+    }
+    return keys;
+  }
 
   // return an array of all the values stores in the hashmap
   values() {}
@@ -102,31 +113,31 @@ class HashMap {
 
 let h = new HashMap();
 h.set("a", 1);
-h.set("ab", 12);
-h.set("b", 2);
-h.set("c", 3);
-h.set("d", 4);
-h.set("e", 5);
-h.set("f", 6);
-h.set("g", 7);
-h.set("h", 8);
-h.set("j", 9);
-h.set("k", 10);
-h.set("l", 11);
-h.set("m", 12);
-h.set("n", 13);
-h.set("o", 14);
-h.set("p", 15);
-h.set("q", 16);
-h.set("r", 17);
-h.set("s", 18);
-h.set("t", 19);
-h.set("u", 19);
-h.set("v", 19);
-h.set("w", 19);
-h.set("x", 19);
-h.set("y", 20);
-h.set("z", 20);
+h.set("ab", 2);
+h.set("b", 4);
+h.set("c", 5);
+h.set("d", 6);
+h.set("e", 7);
+h.set("f", 8);
+h.set("g", 9);
+h.set("h", 10);
+h.set("j", 11);
+h.set("k", 12);
+h.set("l", 13);
+h.set("m", 14);
+h.set("n", 15);
+h.set("o", 16);
+h.set("p", 17);
+h.set("q", 18);
+h.set("r", 19);
+h.set("s", 20);
+h.set("t", 21);
+h.set("u", 22);
+h.set("v", 23);
+h.set("w", 24);
+h.set("x", 25);
+h.set("y", 26);
+h.set("z", 27);
 for (let i = 0; i < h.buckets.length; i++) {
   const elems = [];
   let ll = h.buckets[i];
@@ -167,9 +178,9 @@ console.log(`b`, h.has("b"));
 console.log(`c`, h.has("c"));
 console.log(`non-existant`, h.has("non-existant"));
 
-console.log(`--------------`);
-console.log(`remove non-existant key:`, h.remove("non-existant"));
-console.log(`remove key that does exist:`, h.remove("p"));
+// console.log(`--------------`);
+// console.log(`remove non-existant key:`, h.remove("non-existant"));
+// console.log(`remove key that does exist:`, h.remove("p"));
 
 console.log(`----------------------------------`);
 for (let i = 0; i < h.buckets.length; i++) {
@@ -182,6 +193,8 @@ for (let i = 0; i < h.buckets.length; i++) {
   console.log(elems);
 }
 
-h.clear();
+// h.clear();
 
-console.log(`after clearing`, console.log(h.buckets));
+// console.log(`after clearing`, console.log(h.buckets));
+
+console.log(`keys`, h.keys());
