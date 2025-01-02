@@ -173,7 +173,6 @@ export class LinkedList {
     return null;
   }
 
-  // TODO: update to fit kv pair
   toString() {
     let LLString = `( ${this.head.value} ) -> `;
 

@@ -1,16 +1,11 @@
 import { Node, LinkedList } from "./linked_list.mjs";
 
-//TODO: do load factor logic on adding new element
 class HashMap {
   buckets = Array(16).fill(null); // 16 nulls, no error
-  static loadFactor = 0.8;
-  capacity = this.buckets.length; // not necessary
+  static loadFactor = 0.75;
+  capacity = this.buckets.length;
   length = 0;
-  // if number of entries is > (loadFactor * capacity)
-  //    time to double the size of the buckets array
 
-  // never access buckets direrctly with keys, the hash fucntion gives
-  // you the necessary bucket
   hash(key) {
     let hashCode = 0;
 
@@ -21,26 +16,53 @@ class HashMap {
     return hashCode;
   }
 
+  /**
+   * resizes buckets array when hashmap exceeds load factor
+   */
+  resize() {
+    this.length = 0;
+    const oldBuckets = this.buckets;
+    const newBuckets = Array(this.capacity * 2).fill(null);
+    this.buckets = newBuckets;
+
+    this.capacity = newBuckets.length;
+
+    // move everything to the new bucket
+    for (let i = 0; i < oldBuckets.length; i++) {
+      const bucket = oldBuckets[i];
+      if (bucket !== null) {
+        for (let j = 0; j < bucket.size; j++) {
+          const node = bucket.at(j);
+          const newIndex = this.hash(node.key);
+          this.set(node.key, node.value);
+        }
+      }
+    }
+  }
+
   // if the key already exists in bucket, then the old value is overwritten
   // else new element is added to the bucket
-  set(key, value) {
+  set(key, value, buckets = this.buckets) {
     const index = this.hash(key);
-    if (index < 0 || index >= this.buckets.length) {
+    if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bounds");
     }
-    // TODO: load factoring
-    if (this.buckets[index] === null) {
-      this.buckets[index] = new LinkedList();
-      this.buckets[index].append(key, value);
+    if (buckets[index] === null) {
+      buckets[index] = new LinkedList();
+      buckets[index].append(key, value);
       this.length++;
     } else {
-      const found = this.buckets[index].find(key);
+      const found = buckets[index].find(key);
       if (found === null) {
-        this.buckets[index].append(key, value);
+        buckets[index].append(key, value);
         this.length++;
       } else {
-        this.buckets[index].at(found).value = value;
+        buckets[index].at(found).value = value;
       }
+    }
+
+    if (this.length > this.capacity * HashMap.loadFactor) {
+      this.resize();
     }
   }
 
@@ -75,7 +97,6 @@ class HashMap {
     console.log(`removing:`, this.buckets[index].at(search));
     this.buckets[index].removeAt(search);
     this.length--;
-    // TODO: load factor
     return true;
   }
 
@@ -133,92 +154,26 @@ class HashMap {
   }
 }
 
-let h = new HashMap();
-h.set("a", 1);
-h.set("ab", 2);
-h.set("b", 4);
-h.set("c", 5);
-h.set("d", 6);
-h.set("e", 7);
-h.set("f", 8);
-h.set("g", 9);
-h.set("h", 10);
-h.set("j", 11);
-h.set("k", 12);
-h.set("l", 13);
-h.set("m", 14);
-h.set("n", 15);
-h.set("o", 16);
-h.set("p", 17);
-h.set("q", 18);
-h.set("r", 19);
-h.set("s", 20);
-h.set("t", 21);
-h.set("u", 22);
-h.set("v", 23);
-h.set("w", 24);
-h.set("x", 25);
-h.set("y", 26);
-h.set("z", 27);
-for (let i = 0; i < h.buckets.length; i++) {
-  const elems = [];
-  let ll = h.buckets[i];
-  for (let j = 0; j < ll.size; j++) {
-    let node = ll.at(j);
-    elems.push([node.key, node.value]);
-  }
-  console.log(elems);
-}
-console.log(`----------------------------------`);
-console.log(`a`, h.get("a"));
-console.log("b", h.get("b"));
-console.log("c", h.get("c"));
+let test = new HashMap();
+test.set("apple", "red");
+test.set("banana", "yellow");
+test.set("carrot", "orange");
+test.set("dog", "brown");
+test.set("elephant", "gray");
+test.set("frog", "green");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
+test.set("lion", "golden");
 
-// h.set("a", 22);
-// h.set("ab", 33);
+console.log(`entries before`, test.entries());
+console.log(`length before`, test.length);
+console.log(`capacity before`, test.capacity);
 
-// console.log(`----------------------------------`);
-// for (let i = 0; i < h.buckets.length; i++) {
-//   const elems = [];
-//   let ll = h.buckets[i];
-//   for (let j = 0; j < ll.size; j++) {
-//     let node = ll.at(j);
-//     elems.push([node.key, node.value]);
-//   }
-//   console.log(elems);
-// }
+test.set("moon", "silver");
 
-console.log(`--------------`);
-console.log(`a`, h.get("a"));
-console.log(`b`, h.get("b"));
-console.log(`c`, h.get("c"));
-console.log(`non-existant`, h.get("non-existant"));
-
-console.log(`--------------`);
-console.log(`a`, h.has("a"));
-console.log(`b`, h.has("b"));
-console.log(`c`, h.has("c"));
-console.log(`non-existant`, h.has("non-existant"));
-
-// console.log(`--------------`);
-// console.log(`remove non-existant key:`, h.remove("non-existant"));
-// console.log(`remove key that does exist:`, h.remove("p"));
-
-console.log(`----------------------------------`);
-for (let i = 0; i < h.buckets.length; i++) {
-  const elems = [];
-  let ll = h.buckets[i];
-  for (let j = 0; j < ll.size; j++) {
-    let node = ll.at(j);
-    elems.push([node.key, node.value]);
-  }
-  console.log(elems);
-}
-
-// h.clear();
-
-// console.log(`after clearing`, console.log(h.buckets));
-
-console.log(`keys`, h.keys());
-console.log(`values`, h.values());
-console.log(`values`, h.entries());
+console.log(`entries after overload`, test.entries());
+console.log(`length after overload`, test.length);
+console.log(`capacity after overload`, test.capacity);
