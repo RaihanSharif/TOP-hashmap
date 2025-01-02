@@ -119,7 +119,18 @@ class HashMap {
 
   // return an array of k,v pairs
   // [[firstKey, firstValue], [secondKey, secondValue]]
-  entries() {}
+  entries() {
+    const entries = [];
+    for (let i = 0; i < this.buckets.length; i++) {
+      const bucket = this.buckets[i];
+      if (bucket !== null) {
+        for (let j = 0; j < bucket.size; j++) {
+          entries.push([bucket.at(j).key, bucket.at(j).value]);
+        }
+      }
+    }
+    return entries;
+  }
 }
 
 let h = new HashMap();
@@ -210,3 +221,4 @@ for (let i = 0; i < h.buckets.length; i++) {
 
 console.log(`keys`, h.keys());
 console.log(`values`, h.values());
+console.log(`values`, h.entries());
